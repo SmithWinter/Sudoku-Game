@@ -228,6 +228,7 @@
             this.Name = "SudokuMainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sudoku Game";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SudokuMainForm_FormClosing);
             this.Load += new System.EventHandler(this.SudokuMainForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SudokuMainForm_KeyDown);
             this.SudokuMainMenu.ResumeLayout(false);

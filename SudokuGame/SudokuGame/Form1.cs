@@ -58,7 +58,7 @@ namespace SudokuGame
                 }
             }
         }
-        public void LoadNewGame()
+        public void NewGame()
         {
             //This function will pop up confirmation box and ask user if he/she want to create a new game
             //If yes then reset the main form 
@@ -71,13 +71,17 @@ namespace SudokuGame
                 this.Dispose(false);
             }
         }
+        public void AboutGame()
+        {
+            MessageBox.Show("Contributor of game's sourcecode \n 1. Hồ Vũ Minh Đức \n 2. Nguyễn Duy Hiếu \n 3. Đỗ Quốc Khánh",  "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
         public void ExitGame()
         {
             //This function will pop up confirmation box and ask user if he/she want to exit
             DialogResult result = MessageBox.Show("Are you sure you want to exit", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2);
             if (result == DialogResult.Yes)
             {
-                Application.Exit();
+                Environment.Exit(0);
             }
         }
         //--------------------------------------------------------------------------------------------------------
@@ -97,7 +101,7 @@ namespace SudokuGame
             switch (e.KeyCode.ToString())
             {
                 case "F1":
-                    LoadNewGame();
+                    NewGame();
                     break;
                 case "F2":
                     break;
@@ -112,16 +116,31 @@ namespace SudokuGame
                 case "F7":
                     break;
                 case "F8":
+                    AboutGame();
                     break;
                 case "F9":
                     ExitGame();
                     break;
             }
         }
+        private void SudokuMainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //Add from ExitGame() function for resolving problem of event
+            DialogResult result = MessageBox.Show("Are you sure you want to exit", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2);
+            if (result == DialogResult.Yes)
+            {
+                e.Cancel = false;
+                Environment.Exit(0);
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+        }
         private void SudokuNewGame_Click(object sender, EventArgs e)
         {
             //When click new game button, application will restart
-            LoadNewGame();
+            NewGame();
         }
         private void SudokuSaveGame_Click(object sender, EventArgs e)
         {
@@ -138,6 +157,7 @@ namespace SudokuGame
         private void SudokuAbout_Click(object sender, EventArgs e)
         {
             //When cick about button, a dialog box will be appeared to give information
+            AboutGame();
         }
         private void SudokuExit_Click(object sender, EventArgs e)
         {
@@ -170,6 +190,7 @@ namespace SudokuGame
                 }
             }
         }
+
 
     }
 }
