@@ -10,14 +10,40 @@ using System.Windows.Forms;
 
 namespace SudokuGame
 {
-    public partial class Form1 : Form
+    public partial class SudokuMainForm : Form
     {
-        public Form1()
+        public SudokuMainForm()
         {
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void SudokuMainForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void SudokuMainMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void SudokuNewGame_Click(object sender, EventArgs e)
+        {
+            Application.Restart();
+        }
+
+        private void SudokuLoadGame_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SudokuHelp_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SudokuAbout_Click(object sender, EventArgs e)
         {
 
         }
