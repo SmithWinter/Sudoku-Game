@@ -51,6 +51,7 @@
             this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SudokuSaveGame = new System.Windows.Forms.ToolStripMenuItem();
             this.SudokuMainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SudokuTable)).BeginInit();
             this.SuspendLayout();
@@ -59,6 +60,7 @@
             // 
             this.SudokuMainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SudokuNewGame,
+            this.SudokuSaveGame,
             this.SudokuLoadGame,
             this.SudokuValidate,
             this.solveToolStripMenuItem,
@@ -71,61 +73,60 @@
             this.SudokuMainMenu.Size = new System.Drawing.Size(800, 24);
             this.SudokuMainMenu.TabIndex = 0;
             this.SudokuMainMenu.Text = "SudokuMainMenu";
-            this.SudokuMainMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.SudokuMainMenu_ItemClicked);
             // 
             // SudokuNewGame
             // 
             this.SudokuNewGame.Name = "SudokuNewGame";
-            this.SudokuNewGame.Size = new System.Drawing.Size(77, 20);
-            this.SudokuNewGame.Text = "New Game";
+            this.SudokuNewGame.Size = new System.Drawing.Size(100, 20);
+            this.SudokuNewGame.Text = "New Game (F1)";
             this.SudokuNewGame.Click += new System.EventHandler(this.SudokuNewGame_Click);
             // 
             // SudokuLoadGame
             // 
             this.SudokuLoadGame.Name = "SudokuLoadGame";
-            this.SudokuLoadGame.Size = new System.Drawing.Size(79, 20);
-            this.SudokuLoadGame.Text = "Load Game";
+            this.SudokuLoadGame.Size = new System.Drawing.Size(102, 20);
+            this.SudokuLoadGame.Text = "Load Game (F3)";
             this.SudokuLoadGame.Click += new System.EventHandler(this.SudokuLoadGame_Click);
             // 
             // SudokuValidate
             // 
             this.SudokuValidate.Name = "SudokuValidate";
-            this.SudokuValidate.Size = new System.Drawing.Size(60, 20);
-            this.SudokuValidate.Text = "Validate";
+            this.SudokuValidate.Size = new System.Drawing.Size(83, 20);
+            this.SudokuValidate.Text = "Validate (F4)";
             this.SudokuValidate.Click += new System.EventHandler(this.SudokuValidate_Click);
             // 
             // solveToolStripMenuItem
             // 
             this.solveToolStripMenuItem.Name = "solveToolStripMenuItem";
-            this.solveToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
-            this.solveToolStripMenuItem.Text = "Solve";
+            this.solveToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
+            this.solveToolStripMenuItem.Text = "Solve (F5)";
             // 
             // SudokuHighScore
             // 
             this.SudokuHighScore.Name = "SudokuHighScore";
-            this.SudokuHighScore.Size = new System.Drawing.Size(77, 20);
-            this.SudokuHighScore.Text = "High Score";
+            this.SudokuHighScore.Size = new System.Drawing.Size(100, 20);
+            this.SudokuHighScore.Text = "High Score (F6)";
             this.SudokuHighScore.Click += new System.EventHandler(this.SudokuHighScore_Click);
             // 
             // SudokuHelp
             // 
             this.SudokuHelp.Name = "SudokuHelp";
-            this.SudokuHelp.Size = new System.Drawing.Size(44, 20);
-            this.SudokuHelp.Text = "Help";
+            this.SudokuHelp.Size = new System.Drawing.Size(67, 20);
+            this.SudokuHelp.Text = "Help (F7)";
             this.SudokuHelp.Click += new System.EventHandler(this.SudokuHelp_Click);
             // 
             // SudokuAbout
             // 
             this.SudokuAbout.Name = "SudokuAbout";
-            this.SudokuAbout.Size = new System.Drawing.Size(52, 20);
-            this.SudokuAbout.Text = "About";
+            this.SudokuAbout.Size = new System.Drawing.Size(75, 20);
+            this.SudokuAbout.Text = "About (F8)";
             this.SudokuAbout.Click += new System.EventHandler(this.SudokuAbout_Click);
             // 
             // SudokuExit
             // 
             this.SudokuExit.Name = "SudokuExit";
-            this.SudokuExit.Size = new System.Drawing.Size(37, 20);
-            this.SudokuExit.Text = "Exit";
+            this.SudokuExit.Size = new System.Drawing.Size(60, 20);
+            this.SudokuExit.Text = "Exit (F9)";
             this.SudokuExit.Click += new System.EventHandler(this.SudokuExit_Click);
             // 
             // SudokuTable
@@ -205,6 +206,13 @@
             // 
             this.Column9.Name = "Column9";
             // 
+            // SudokuSaveGame
+            // 
+            this.SudokuSaveGame.Name = "SudokuSaveGame";
+            this.SudokuSaveGame.Size = new System.Drawing.Size(100, 20);
+            this.SudokuSaveGame.Text = "Save Game (F2)";
+            this.SudokuSaveGame.Click += new System.EventHandler(this.SudokuSaveGame_Click);
+            // 
             // SudokuMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -220,7 +228,9 @@
             this.Name = "SudokuMainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sudoku Game";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SudokuMainForm_FormClosing);
             this.Load += new System.EventHandler(this.SudokuMainForm_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SudokuMainForm_KeyDown);
             this.SudokuMainMenu.ResumeLayout(false);
             this.SudokuMainMenu.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SudokuTable)).EndInit();
@@ -250,6 +260,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.ToolStripMenuItem SudokuValidate;
         private System.Windows.Forms.ToolStripMenuItem SudokuHighScore;
+        private System.Windows.Forms.ToolStripMenuItem SudokuSaveGame;
     }
 }
 
