@@ -12,13 +12,14 @@ namespace SudokuGame
 {
     public partial class SudokuMainForm : Form
     {
-        public void Build()
+        public void BuildSudokuTable ()
         {
             SudokuTable.ColumnCount = 9;
             SudokuTable.Rows.Add(9);                         
             for (int i = 0; i < 9; i++)
             {
                 DataGridViewColumn column = SudokuTable.Columns[i];
+                ((DataGridViewTextBoxColumn)SudokuTable.Columns[i]).MaxInputLength = 1;
                 column.Width = (int)(SudokuTable.Width / 9f);
                 DataGridViewRow row = SudokuTable.Rows[i];
                 row.Height = (int)(SudokuTable.Height / 9f);
@@ -59,7 +60,7 @@ namespace SudokuGame
 
         private void SudokuMainForm_Load(object sender, EventArgs e)
         {
-            Build();
+            BuildSudokuTable();
         }
 
 
@@ -103,5 +104,22 @@ namespace SudokuGame
 
         }
 
+        private void SudokuTable_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            DataGridViewTextBoxCell cell = SudokuTable[e.ColumnIndex, e.RowIndex] as DataGridViewTextBoxCell;
+            if (cell != null)
+            {
+                char[] chars = e.FormattedValue.ToString().ToCharArray();
+                foreach (char c in chars)
+                {
+                    if (char.IsDigit(c) == false)
+                    {
+                        MessageBox.Show("You have to enter digits only", "Alert");
+                        e.Cancel = true;
+                        break;
+                    }
+                }
+            }
+        }
     }
 }
