@@ -12,6 +12,7 @@ namespace SudokuGame
 {
     public partial class SudokuMainForm : Form
     {
+        //Custom Functon
         public void BuildSudokuTable ()
         {
             //This function render Sudoku table as DataGridView
@@ -57,61 +58,100 @@ namespace SudokuGame
                 }
             }
         }
+        public void LoadNewGame()
+        {
+            //This function will pop up confirmation box and ask user if he/she want to create a new game
+            //If yes then reset the main form 
+            //For protect user's process if he/she accidentally press F1 button  
+            DialogResult result = MessageBox.Show("Are you sure you want to create a new game", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2);
+            if (result == DialogResult.Yes)
+            {
+                SudokuMainForm New_SudokuMainForm = new SudokuMainForm();
+                New_SudokuMainForm.Show();
+                this.Dispose(false);
+            }
+        }
+        public void ExitGame()
+        {
+            //This function will pop up confirmation box and ask user if he/she want to exit
+            DialogResult result = MessageBox.Show("Are you sure you want to exit", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2);
+            if (result == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
+        }
+        //--------------------------------------------------------------------------------------------------------
+   
         public SudokuMainForm()
         {
             //Initialize form
             InitializeComponent();
         }
-
         private void SudokuMainForm_Load(object sender, EventArgs e)
         {
-            //When application loaded, call these function below
+            //When application loaded, call these function
             BuildSudokuTable();
         }
-
-
-        private void SudokuMainMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        private void SudokuMainForm_KeyDown(object sender, KeyEventArgs e)
         {
-
+            switch (e.KeyCode.ToString())
+            {
+                case "F1":
+                    LoadNewGame();
+                    break;
+                case "F2":
+                    break;
+                case "F3":
+                    break;
+                case "F4":
+                    break;
+                case "F5":
+                    break;
+                case "F6":
+                    break;
+                case "F7":
+                    break;
+                case "F8":
+                    break;
+                case "F9":
+                    ExitGame();
+                    break;
+            }
         }
-
         private void SudokuNewGame_Click(object sender, EventArgs e)
         {
             //When click new game button, application will restart
-            Application.Restart();
+            LoadNewGame();
         }
+        private void SudokuSaveGame_Click(object sender, EventArgs e)
+        {
 
+        }
         private void SudokuLoadGame_Click(object sender, EventArgs e)
         {
             //When click load game button, application will input data from selected file to application
         }
-
         private void SudokuHelp_Click(object sender, EventArgs e)
         {
            //When click help button, a dialog box will be appeared to give information
         }
-
         private void SudokuAbout_Click(object sender, EventArgs e)
         {
             //When cick about button, a dialog box will be appeared to give information
         }
-
         private void SudokuExit_Click(object sender, EventArgs e)
         {
-            //When click exit button, application will close 
-            Application.Exit();
+            //When click exit button, confirmation box will appear to confirm user's exit
+            ExitGame();
         }
-
         private void SudokuValidate_Click(object sender, EventArgs e)
         {
             //When click validate button, application will consider if player is win or not 
         }
-
         private void SudokuHighScore_Click(object sender, EventArgs e)
         {
             //When click high score button, a dialog box will be appeared to give information of top ten record with lowest time
         }
-
         private void SudokuTable_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
             //Application will validate and consider if user's input is numeric or not
@@ -123,12 +163,13 @@ namespace SudokuGame
                 {
                     if (char.IsDigit(c) == false)
                     {
-                        MessageBox.Show("You have to enter digits only", "Alert");
+                        MessageBox.Show("You have to enter digits only", "Alert", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         e.Cancel = true;
                         break;
                     }
                 }
             }
         }
+
     }
 }
