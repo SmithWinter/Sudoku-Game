@@ -34,6 +34,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SudokuMainForm));
             this.SudokuMainMenu = new System.Windows.Forms.MenuStrip();
             this.SudokuNewGame = new System.Windows.Forms.ToolStripMenuItem();
+            this.SudokuSaveGame = new System.Windows.Forms.ToolStripMenuItem();
             this.SudokuLoadGame = new System.Windows.Forms.ToolStripMenuItem();
             this.SudokuValidate = new System.Windows.Forms.ToolStripMenuItem();
             this.solveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,7 +52,6 @@
             this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SudokuSaveGame = new System.Windows.Forms.ToolStripMenuItem();
             this.SudokuMainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SudokuTable)).BeginInit();
             this.SuspendLayout();
@@ -80,6 +80,13 @@
             this.SudokuNewGame.Size = new System.Drawing.Size(100, 20);
             this.SudokuNewGame.Text = "New Game (F1)";
             this.SudokuNewGame.Click += new System.EventHandler(this.SudokuNewGame_Click);
+            // 
+            // SudokuSaveGame
+            // 
+            this.SudokuSaveGame.Name = "SudokuSaveGame";
+            this.SudokuSaveGame.Size = new System.Drawing.Size(100, 20);
+            this.SudokuSaveGame.Text = "Save Game (F2)";
+            this.SudokuSaveGame.Click += new System.EventHandler(this.SudokuSaveGame_Click);
             // 
             // SudokuLoadGame
             // 
@@ -205,13 +212,6 @@
             // Column9
             // 
             this.Column9.Name = "Column9";
-            // 
-            // SudokuSaveGame
-            // 
-            this.SudokuSaveGame.Name = "SudokuSaveGame";
-            this.SudokuSaveGame.Size = new System.Drawing.Size(100, 20);
-            this.SudokuSaveGame.Text = "Save Game (F2)";
-            this.SudokuSaveGame.Click += new System.EventHandler(this.SudokuSaveGame_Click);
             // 
             // SudokuMainForm
             // 
