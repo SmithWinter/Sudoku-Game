@@ -13,11 +13,11 @@ namespace SudokuGame
     public partial class SudokuMainForm : Form
     {
         //Global variables
-        public static Random random = new Random();
-        public static int DifficultyIndicator;
-        public static int DeletedCellCounter;
-        public static int[,] SudokuMatrix = new int[9, 9];
-        public static int[,] SudokuSolve = new int[9, 9];
+        public  Random random = new Random();
+        public int DifficultyIndicator;
+        public int DeletedCellCounter;
+        public int[,] SudokuMatrix = new int[9, 9];
+        public int[,] SudokuSolve = new int[9, 9];
         //Custom Functon
         public void BuildSudokuTable ()
         {                    
@@ -98,11 +98,18 @@ namespace SudokuGame
                     DeletedCellCounter = random.Next(30, 39);
                     break;
                 case 2:
-                    DeletedCellCounter = random.Next(20, 29);
+                    DeletedCellCounter = random.Next(40, 49);
                     break;
                 case 3:
-                    DeletedCellCounter = random.Next(10, 19);
+                    DeletedCellCounter = random.Next(50, 59);
                     break;
+            }
+            for (int i = 0; i < SudokuMatrix.GetLength(1); i++)
+            {
+                for (int j = 0; j < SudokuMatrix.GetLength(1); j++)
+                {
+                    SudokuMatrix[i, j] = (i * 3 + i / 3 + j) % 9 + 1;
+                }
             }
             Randomize.Mix(SudokuMatrix);
             SudokuSolve = Copy(SudokuMatrix, SudokuSolve);
@@ -160,7 +167,7 @@ namespace SudokuGame
                     else
                     {
                         SudokuTable.Rows[i].Cells[j].Value = SudokuMatrix[i, j].ToString();
-                       // SudokuTable[j, i].Value = matrix[i, j];
+                        SudokuTable.Rows[i].Cells[j].ReadOnly = true;
                     }
                 }
             }
@@ -311,6 +318,7 @@ namespace SudokuGame
                     HardSelector.Enabled = false;
                     SudokuTable.Enabled = true;
                     DifficultyIndicator = 2;
+                    CreateRandomPuzzle();
                 }
                 else
                 {
@@ -332,6 +340,7 @@ namespace SudokuGame
                     HardSelector.Enabled = false;
                     SudokuTable.Enabled = true;
                     DifficultyIndicator = 3;
+                    CreateRandomPuzzle();
                 }
                 else
                 {
