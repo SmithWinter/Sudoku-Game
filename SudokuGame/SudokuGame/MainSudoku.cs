@@ -18,6 +18,8 @@ namespace SudokuGame
         public int GameState = 0;
         public int SaveState = 0;
         public int LoadState = 0;
+        public int CurrentRow = 0;
+        public int CurrentColumn = 0;
         public int DifficultyIndicator;
         public int DeletedCellCounter;
         public int[,] SudokuMatrix = new int[9, 9];
@@ -94,13 +96,16 @@ namespace SudokuGame
         }
         public void SaveGame()
         {
-            SudokuTimer.Stop();
+            GameState = 1;
+            CheckGameState();
             string text = "";
             string CellValue;
             string GameDifficulty = DifficultyIndicator.ToString();
             string ExportSecond = (second < 10) ? ("0" + second.ToString()) : (second.ToString());
             string ExportMinute = (minute < 10) ? ("0" + minute.ToString()) : (minute.ToString());
             string ExportHour = (hour < 10) ? ("0" + hour.ToString()) : (hour.ToString());
+            string ExportCurrentColumn = CurrentColumn.ToString();
+            string ExportCurrentRow = CurrentRow.ToString();
             int EmptyCell;
 
             SaveFileDialog SaveGameDialog = new SaveFileDialog();
@@ -131,6 +136,8 @@ namespace SudokuGame
             text += ExportHour;
             text += ExportMinute;
             text += ExportSecond;
+            text += ExportCurrentColumn;
+            text += ExportCurrentRow;
             text += GameDifficulty;
             DialogResult result = SaveGameDialog.ShowDialog();
             try
@@ -140,19 +147,25 @@ namespace SudokuGame
                     string difficulty = SudokuDifficultySelector.SelectedItem.ToString();
                     SaveState = 2;
                     System.IO.File.WriteAllText(SaveGameDialog.FileName, text);
-                    MessageBox.Show("Save Game Successful \n Difficulty: " + difficulty + "\n Time: " + ExportHour + " : " + ExportMinute + " : " + ExportSecond, "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    SudokuTimer.Start();
+                    MessageBox.Show(" Save Game Successful \n Difficulty: " + difficulty + "\n Time: " + ExportHour + " : " + ExportMinute + " : " + ExportSecond + "\n Selected Cell: " + "[" + (CurrentRow + 1) + ":" + (CurrentColumn + 1) + "]" , "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    GameState = 1;
+                    CheckGameState();
                 }
             }
             catch
             {
                 MessageBox.Show("Error Saving Game File ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                SudokuTimer.Start();
+                GameState = 2;
+                CheckGameState();
             }
         }
         public void LoadGame()
         {
-            SudokuTimer.Stop();
+            GameState = 1;
+            CheckGameState();
             OpenFileDialog LoadGameDialog = new OpenFileDialog();
             LoadGameDialog.CheckFileExists = true;
             LoadGameDialog.Filter = "Sudoku Game (*.game)|*.game";
@@ -166,7 +179,25 @@ namespace SudokuGame
                     LoadState = 1;
                     SudokuTable.Enabled = true;
                     string text = System.IO.File.ReadAllText(LoadGameDialog.FileName);
-                    int a = 0, b = 0, indicator = 0, impHour = 0, impMinute = 0, impSecond = 0;
+                    int a = 0;
+                    int b = 0;
+                    int indicator = 0;
+                    int impHour = 0;
+                    int impMinute = 0;
+                    int impSecond = 0;
+                    int impCurrentColumn = 0;
+                    int impCurrentRow = 0;
+                    for (int i = 0; i < 80; i++)
+                    {
+                        string CellValue = text[i].ToString();
+                        int value = 0;
+                        if (int.TryParse(CellValue, out value))
+                        {
+                            a = (i % 9);
+                            b = (i / 9);
+                            SudokuMatrix[a, b] = value;
+                        }
+                    }
                     for (int i = 0; i < SudokuMatrix.GetLength(0); i++)
                     {
                         for (int j = 0; j < SudokuMatrix.GetLength(1); j++)
@@ -174,24 +205,15 @@ namespace SudokuGame
                             SudokuTable[j, i].Value = "";
                         }
                     }
-                    for (int i = 0; i < 80; i++)
-                    {
-                        string CellValue = text[i].ToString();
-                        int value = 0;
-                        if (int.TryParse(CellValue, out value))
-                        {
-                            a = (i / 9);
-                            b = i % 9;
-                            SudokuMatrix[a, b] = value;
-                        }
-                    }
-                    string TempIndicator = text[text.Length - 1].ToString();
                     string ImportHour = (text[81].ToString() != "0") ? (text.Substring(81, 2).ToString()) : (text[82].ToString());
                     string ImportMinute = (text[83].ToString() != "0") ? (text.Substring(83, 2).ToString()) : (text[84].ToString());
                     string ImportSecond = (text[85].ToString() != "0") ? (text.Substring(85, 2).ToString()) : (text[8].ToString());
+                    string ImportCurrentColumn = text[87].ToString();
+                    string ImportCurrentRow = text[88].ToString();
+                    string TempIndicator = text[89].ToString();
                     if (int.TryParse(TempIndicator, out indicator))
                     {
-                        SudokuDifficultySelector.SelectedIndex = indicator;
+                        SudokuDifficultySelector.SelectedIndex = indicator - 1;
                     }
                     if (int.TryParse(ImportHour, out impHour) && int.TryParse(ImportMinute, out impMinute) && int.TryParse(ImportSecond, out impSecond))
                     {
@@ -199,21 +221,40 @@ namespace SudokuGame
                         minute = impMinute;
                         second = impSecond;
                         TimeCounter.Text = string.Format("{0}:{1}:{2}", hour.ToString().PadLeft(2, '0'), minute.ToString().PadLeft(2, '0'), second.ToString().PadLeft(2, '0'));
-
+                    }
+                    if (int.TryParse(ImportCurrentColumn, out impCurrentColumn) && int.TryParse(ImportCurrentRow, out impCurrentRow))
+                    {
+                        CurrentColumn = impCurrentColumn;
+                        CurrentRow = impCurrentRow;
                     }
                     string difficulty = SudokuDifficultySelector.SelectedItem.ToString();
-                    MessageBox.Show("Load Game Successful \n Difficulty: " + difficulty + "\n Time: " + ImportHour + " : " + ImportMinute + " : " + ImportSecond, "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(" Load Game Successful \n Difficulty: " + difficulty + "\n Time: " + ImportHour + " : " + ImportMinute + " : " + ImportSecond + "\n Selected Cell: " + "[" + (CurrentRow + 1).ToString() + ":" + (CurrentColumn + 1).ToString() + "]", "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    SaveState = 1;
                     ChangeComponentState();
-                    SudokuTimer.Start();
-                    TriggerButton.Text = "Pause Game";
+                    SaveButton.Enabled = true;
+                    LoadButton.Enabled = true;
+                    SudokuTable.Enabled = false;
                     ShowMatrix();
-                    GameState = 1;
+                }
+                else
+                {
+                    if (LoadState == 1)
+                    {
+                        GameState = 1;
+                        CheckGameState();
+                    }
+                    else
+                    {
+                        LoadState = 0;
+                    }
                 }
             }
             catch
             {
                 MessageBox.Show("Error Opening Game File ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                SudokuTimer.Start();
+    
+                GameState = 2;
+                CheckGameState();
             }
         }
         public void AboutGame()
@@ -333,14 +374,44 @@ namespace SudokuGame
         }
         public void ChangeComponentState()
         {
-            SudokuNewGame.Enabled = true;
-            SudokuSaveGame.Enabled = true;
-            SudokuValidate.Enabled = true;
-            SudokuSolver.Enabled = true;
-            SaveButton.Enabled = true;
+            SudokuTable.Rows[CurrentRow].Cells[CurrentColumn].Selected = true;
+            NewGameButton.Enabled = true;
+            SaveButton.Enabled = false;
+            LoadButton.Enabled = false;
             ValidateButton.Enabled = true;
             SolveButton.Enabled = true;
             SudokuDifficultySelector.Enabled = false;
+        }
+        public void CheckGameState()
+        {
+            switch (GameState)
+            {
+                case 0:
+                    GameState = 1;
+                    SaveState = 1;
+                    ChangeComponentState();
+                    CreateRandomPuzzle();
+                    TriggerButton.Text = "Pause Game";
+                    SudokuTimer.Start();
+                    SudokuTable.Enabled = true;
+                    break;
+                case 1:
+                    SudokuTimer.Stop();
+                    TriggerButton.Text = "Resume Game";
+                    SaveButton.Enabled = true;
+                    LoadButton.Enabled = true;
+                    SudokuTable.Enabled = false;
+                    GameState = 2;
+                    break;
+                case 2:
+                    SudokuTimer.Start();
+                    TriggerButton.Text = "Pause Game";
+                    SaveButton.Enabled = false;
+                    LoadButton.Enabled = false;
+                    SudokuTable.Enabled = true;
+                    GameState = 1;
+                    break;
+            }
         }
 
         //---------------------------------------Section End---------------------------------------------------------------
@@ -360,77 +431,9 @@ namespace SudokuGame
             SudokuTimer.Elapsed += OnTimeEvent;
 
         }
-        private void SudokuMainForm_KeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.KeyCode.ToString())
-            {
-                case "F1":
-                    NewGame();
-                    break;
-                case "F2":
-                    SaveGame();
-                    break;
-                case "F3":
-                    LoadGame();
-                    break;
-                case "F4":
-                    break;
-                case "F5":
-                    break;
-                case "F6":
-                    break;
-                case "F7":
-                    AboutGame();
-                    break;
-                case "F8":
-                    ExitGame();
-                    break;
-            }
-        }
-        private void SudokuTable_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
-        {
-            SudokuTable.ClearSelection();
-        }
         private void SudokuMainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             //Add from ExitGame() function for resolving problem of event
-            DialogResult result = MessageBox.Show("Are you sure you want to exit", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2);
-            if (result == DialogResult.Yes)
-            {
-                e.Cancel = false;
-                Environment.Exit(0);
-            }
-            else
-            {
-                e.Cancel = true;
-            }
-        }
-        private void SudokuNewGame_Click(object sender, EventArgs e)
-        {
-            //When click new game button, application will restart
-            NewGame();
-        }
-        private void SudokuSaveGame_Click(object sender, EventArgs e)
-        {
-            SaveGame();
-        }
-        private void SudokuLoadGame_Click(object sender, EventArgs e)
-        {
-            //When click load game button, application will input data from selected file to application
-            LoadGame();
-        }
-        private void SudokuHelp_Click(object sender, EventArgs e)
-        {
-           //When click help button, a dialog box will be appeared to give information
-        }
-        private void SudokuAbout_Click(object sender, EventArgs e)
-        {
-            //When cick about button, a dialog box will be appeared to give information
-            AboutGame();
-        }
-        private void SudokuExit_Click(object sender, EventArgs e)
-        {
-            //When click exit button, confirmation box will appear to confirm user's exit
             ExitGame();
         }
         private void SudokuValidate_Click(object sender, EventArgs e)
@@ -508,32 +511,21 @@ namespace SudokuGame
         {
             SudokuMatrix[e.RowIndex, e.ColumnIndex] = Convert.ToInt32(SudokuTable.CurrentCell.Value);
         }
+
+        private void SudokuTable_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            CurrentColumn = e.ColumnIndex;
+            CurrentRow = e.RowIndex;
+        }
+
+        private void NewGameButton_Click(object sender, EventArgs e)
+        {
+            NewGame();
+        }
+
         private void TriggerButton_Click(object sender, EventArgs e)
         {
-            switch (GameState)
-            {
-                case 0:
-                    GameState = 1;
-                    SaveState = 1;
-                    ChangeComponentState();
-                    CreateRandomPuzzle();
-                    TriggerButton.Text = "Pause Game";
-                    SudokuTimer.Start();
-                    SudokuTable.Enabled = true;
-                    break;
-                case 1:
-                    SudokuTimer.Stop();
-                    TriggerButton.Text = "Resume Game";
-                    SudokuTable.Enabled = false;
-                    GameState = 2;
-                    break;
-                case 2:
-                    SudokuTimer.Start();
-                    TriggerButton.Text = "Pause Game";
-                    SudokuTable.Enabled = true;
-                    GameState = 1;
-                    break;
-            }
+            CheckGameState();
         }
         private void OnTimeEvent(object sender, ElapsedEventArgs e)
         {

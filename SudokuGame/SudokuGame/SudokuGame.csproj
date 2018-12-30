@@ -55,6 +55,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SudokuChecker.cs" />
     <EmbeddedResource Include="MainSudoku.resx">
       <DependentUpon>MainSudoku.cs</DependentUpon>
     </EmbeddedResource>
