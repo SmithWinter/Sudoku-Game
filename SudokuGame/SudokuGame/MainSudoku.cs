@@ -103,6 +103,9 @@ namespace SudokuGame
                 case 3:
                     DeletedCellCounter = random.Next(50, 59);
                     break;
+                case 4:
+                    DeletedCellCounter = random.Next(60, 69);
+                    break;
             }
             for (int i = 0; i < SudokuMatrix.GetLength(1); i++)
             {
@@ -181,7 +184,6 @@ namespace SudokuGame
         }
         private void SudokuMainForm_Load(object sender, EventArgs e)
         {
-
             //When application loaded, call these function
             BuildSudokuTable();
         }
@@ -204,11 +206,9 @@ namespace SudokuGame
                 case "F6":
                     break;
                 case "F7":
-                    break;
-                case "F8":
                     AboutGame();
                     break;
-                case "F9":
+                case "F8":
                     ExitGame();
                     break;
             }
@@ -284,69 +284,31 @@ namespace SudokuGame
                 }
             }
         }
-        private void EasySelector_CheckedChanged(object sender, EventArgs e)
+
+        private void SudokuDifficultySelector_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //If Easy checkbox is ticked
-            if (EasySelector.Checked) { 
-                DialogResult result = MessageBox.Show("Are you sure", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2);
-                if (result == DialogResult.Yes)
-                {
-                    EasySelector.Enabled = false;
-                    MediumSelector.Enabled = false;
-                    HardSelector.Enabled = false;
-                    SudokuTable.Enabled = true;
+            switch (SudokuDifficultySelector.SelectedIndex)
+            {
+                case 0:
                     DifficultyIndicator = 1;
-                    CreateRandomPuzzle();
-                }
-                else
-                {
-                    EasySelector.Checked = false;
-                }
-            }
-        }
-
-        private void MediumSelector_CheckedChanged(object sender, EventArgs e)
-        {
-            //If Medium checkbox is ticked
-            if (MediumSelector.Checked)
-            {
-                DialogResult result = MessageBox.Show("Are you sure", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2);
-                if (result == DialogResult.Yes)
-                {
-                    EasySelector.Enabled = false;
-                    MediumSelector.Enabled = false;
-                    HardSelector.Enabled = false;
-                    SudokuTable.Enabled = true;
+//                    CreateRandomPuzzle();
+                    break;
+                case 1:
                     DifficultyIndicator = 2;
-                    CreateRandomPuzzle();
-                }
-                else
-                {
-                    MediumSelector.Checked = false;
-                }
+                    break;
+                case 2:
+                    DifficultyIndicator = 3;
+                    break;
+                case 3:
+                    DifficultyIndicator = 4;
+                    break;
             }
         }
 
-        private void HardSelector_CheckedChanged(object sender, EventArgs e)
+        private void TriggerButton_Click(object sender, EventArgs e)
         {
-            //If Hard checkbox is ticked
-            if (HardSelector.Checked)
-            {
-                DialogResult result = MessageBox.Show("Are you sure", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2);
-                if (result == DialogResult.Yes)
-                {
-                    EasySelector.Enabled = false;
-                    MediumSelector.Enabled = false;
-                    HardSelector.Enabled = false;
-                    SudokuTable.Enabled = true;
-                    DifficultyIndicator = 3;
-                    CreateRandomPuzzle();
-                }
-                else
-                {
-                    HardSelector.Checked = false;
-                }
-            }
+            SudokuDifficultySelector.Enabled = false;
+            CreateRandomPuzzle();
         }
     }
 }
