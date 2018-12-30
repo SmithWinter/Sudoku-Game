@@ -33,14 +33,22 @@ namespace SudokuGame
             //Run loop to render column and row and limit cell input is 1 character
             for (int i = 0; i < 9; i++)
             {
+                //Add input validator, accept only 1 char
                 DataGridViewColumn column = SudokuTable.Columns[i];
-                ((DataGridViewTextBoxColumn) column).MaxInputLength = 1;
-                column.Width = (int)(SudokuTable.Width / 9f);
-                DataGridViewRow row = SudokuTable.Rows[i];
-                row.Height = (int)(SudokuTable.Height / 9f);
+                ((DataGridViewTextBoxColumn)column).MaxInputLength = 1;
+                //Set height and row for sudoku table
+                SudokuTable.Columns[i].Width = 38 + ((i + 1) % 3 == 0 ? 5 : 0);
+                SudokuTable.Rows[i].Height = 38 + ((i + 1) % 3 == 0 ? 5 : 0);
             }
-            //Set width to DataGridView column
-            SudokuTable.Width = SudokuTable.Columns[1].Width * 9;        
+            //Set divider for sudoku
+            SudokuTable.Columns[2].DividerWidth = 5;
+            SudokuTable.Columns[5].DividerWidth = 5;
+            SudokuTable.Rows[2].DividerHeight = 5;
+            SudokuTable.Rows[5].DividerHeight = 5;
+            //Set height for divider
+            SudokuTable.Rows[2].Height += 5;
+            SudokuTable.Rows[5].Height += 5;
+  
             //Run loop to fill LightCyan color to DataGridView
             for (int i = 0; i < 9; i++)
             {
@@ -313,6 +321,10 @@ namespace SudokuGame
                     TriggerButton.Enabled = true;
                     break;
             }
+        }
+        private void SudokuTable_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            SudokuMatrix[e.RowIndex, e.ColumnIndex] = Convert.ToInt32(SudokuTable.CurrentCell.Value);
         }
         private void TriggerButton_Click(object sender, EventArgs e)
         {

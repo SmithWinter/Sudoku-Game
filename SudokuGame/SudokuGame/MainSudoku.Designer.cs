@@ -84,7 +84,7 @@
             this.SudokuExit});
             this.SudokuMainMenu.Location = new System.Drawing.Point(0, 0);
             this.SudokuMainMenu.Name = "SudokuMainMenu";
-            this.SudokuMainMenu.Size = new System.Drawing.Size(793, 24);
+            this.SudokuMainMenu.Size = new System.Drawing.Size(787, 24);
             this.SudokuMainMenu.TabIndex = 0;
             this.SudokuMainMenu.Text = "SudokuMainMenu";
             // 
@@ -191,7 +191,7 @@
             this.SudokuTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
@@ -217,8 +217,9 @@
             this.SudokuTable.Name = "SudokuTable";
             this.SudokuTable.RowHeadersVisible = false;
             this.SudokuTable.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.SudokuTable.Size = new System.Drawing.Size(378, 348);
+            this.SudokuTable.Size = new System.Drawing.Size(360, 370);
             this.SudokuTable.TabIndex = 0;
+            this.SudokuTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.SudokuTable_CellEndEdit);
             this.SudokuTable.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.SudokuTable_CellValidating);
             this.SudokuTable.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.SudokuTable_DataBindingComplete);
             // 
@@ -355,7 +356,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(793, 453);
+            this.ClientSize = new System.Drawing.Size(787, 453);
+            this.Controls.Add(this.SudokuTable);
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.SudokuHighScoreContainer);
             this.Controls.Add(this.AboutButton);
@@ -366,7 +368,6 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.SudokuTimerContainer);
             this.Controls.Add(this.SudokuDifficultySelectorContainer);
-            this.Controls.Add(this.SudokuTable);
             this.Controls.Add(this.SudokuMainMenu);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
