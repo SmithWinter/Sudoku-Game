@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -52,10 +51,9 @@
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SudokuTable = new System.Windows.Forms.DataGridView();
-            this.SudokuTimer = new System.Windows.Forms.Timer(this.components);
             this.SudokuDifficultySelector = new System.Windows.Forms.ComboBox();
             this.SudokuDifficultySelectorContainer = new System.Windows.Forms.GroupBox();
-            this.txtResult = new System.Windows.Forms.Label();
+            this.TimeCounter = new System.Windows.Forms.Label();
             this.SudokuTimerContainer = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
             this.TriggerButton = new System.Windows.Forms.Button();
@@ -211,6 +209,7 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.SudokuTable.DefaultCellStyle = dataGridViewCellStyle3;
+            this.SudokuTable.Enabled = false;
             this.SudokuTable.GridColor = System.Drawing.Color.Black;
             this.SudokuTable.Location = new System.Drawing.Point(396, 60);
             this.SudokuTable.Margin = new System.Windows.Forms.Padding(10);
@@ -248,20 +247,20 @@
             this.SudokuDifficultySelectorContainer.TabStop = false;
             this.SudokuDifficultySelectorContainer.Text = "Difficulty Selector";
             // 
-            // txtResult
+            // TimeCounter
             // 
-            this.txtResult.AutoSize = true;
-            this.txtResult.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtResult.Location = new System.Drawing.Point(9, 25);
-            this.txtResult.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.txtResult.Name = "txtResult";
-            this.txtResult.Size = new System.Drawing.Size(128, 31);
-            this.txtResult.TabIndex = 13;
-            this.txtResult.Text = "00:00:00";
+            this.TimeCounter.AutoSize = true;
+            this.TimeCounter.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TimeCounter.Location = new System.Drawing.Point(18, 25);
+            this.TimeCounter.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.TimeCounter.Name = "TimeCounter";
+            this.TimeCounter.Size = new System.Drawing.Size(128, 31);
+            this.TimeCounter.TabIndex = 13;
+            this.TimeCounter.Text = "00:00:00";
             // 
             // SudokuTimerContainer
             // 
-            this.SudokuTimerContainer.Controls.Add(this.txtResult);
+            this.SudokuTimerContainer.Controls.Add(this.TimeCounter);
             this.SudokuTimerContainer.Location = new System.Drawing.Point(208, 60);
             this.SudokuTimerContainer.Name = "SudokuTimerContainer";
             this.SudokuTimerContainer.Size = new System.Drawing.Size(162, 73);
@@ -280,6 +279,7 @@
             // 
             // TriggerButton
             // 
+            this.TriggerButton.Enabled = false;
             this.TriggerButton.Location = new System.Drawing.Point(208, 139);
             this.TriggerButton.Name = "TriggerButton";
             this.TriggerButton.Size = new System.Drawing.Size(80, 54);
@@ -413,10 +413,9 @@
         private System.Windows.Forms.ToolStripMenuItem SudokuValidate;
         private System.Windows.Forms.ToolStripMenuItem SudokuSaveGame;
         private System.Windows.Forms.DataGridView SudokuTable;
-        private System.Windows.Forms.Timer SudokuTimer;
         private System.Windows.Forms.ComboBox SudokuDifficultySelector;
         private System.Windows.Forms.GroupBox SudokuDifficultySelectorContainer;
-        private System.Windows.Forms.Label txtResult;
+        private System.Windows.Forms.Label TimeCounter;
         private System.Windows.Forms.GroupBox SudokuTimerContainer;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button TriggerButton;

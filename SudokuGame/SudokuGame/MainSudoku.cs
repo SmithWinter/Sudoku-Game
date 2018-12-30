@@ -7,23 +7,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Timers;
 
 namespace SudokuGame
 {
     public partial class SudokuMainForm : Form
     {
         //Global variables
-        public  Random random = new Random();
+        public Random random = new Random();
+        public int GameState = 0;
         public int DifficultyIndicator;
         public int DeletedCellCounter;
         public int[,] SudokuMatrix = new int[9, 9];
         public int[,] SudokuSolve = new int[9, 9];
-        //Custom Functon
+        //Global Timer
+        System.Timers.Timer SudokuTimer;
+        public int hour, minute, second;
+        //---------------------------------Custom Functon Section-------------------------------------------------
         public void BuildSudokuTable ()
         {                    
-        //This function render Sudoku table as DataGridView
-        //Initialize DataGridView
-        SudokuTable.ColumnCount = 9;
+            //This function render Sudoku table as DataGridView
+            //Initialize DataGridView
+            SudokuTable.ColumnCount = 9;
             SudokuTable.Rows.Add(9);               
             //Run loop to render column and row and limit cell input is 1 character
             for (int i = 0; i < 9; i++)
@@ -175,8 +180,7 @@ namespace SudokuGame
                 }
             }
         }
-        //--------------------------------------------------------------------------------------------------------
-
+        //---------------------------------------Section End---------------------------------------------------------------
         public SudokuMainForm()
         {
             //Initialize form
@@ -186,8 +190,12 @@ namespace SudokuGame
         {
             //When application loaded, call these function
             BuildSudokuTable();
-        }
+            //Load new Timer
+            SudokuTimer = new System.Timers.Timer();
+            SudokuTimer.Interval = 1000;
+            SudokuTimer.Elapsed += OnTimeEvent;
 
+        }
         private void SudokuMainForm_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode.ToString())
@@ -284,31 +292,73 @@ namespace SudokuGame
                 }
             }
         }
-
         private void SudokuDifficultySelector_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (SudokuDifficultySelector.SelectedIndex)
             {
                 case 0:
                     DifficultyIndicator = 1;
-//                    CreateRandomPuzzle();
+                    TriggerButton.Enabled = true;
                     break;
                 case 1:
                     DifficultyIndicator = 2;
+                    TriggerButton.Enabled = true;
                     break;
                 case 2:
                     DifficultyIndicator = 3;
+                    TriggerButton.Enabled = true;
                     break;
                 case 3:
                     DifficultyIndicator = 4;
+                    TriggerButton.Enabled = true;
                     break;
             }
         }
-
         private void TriggerButton_Click(object sender, EventArgs e)
         {
-            SudokuDifficultySelector.Enabled = false;
-            CreateRandomPuzzle();
+            switch (GameState)
+            {
+                case 0:
+                    GameState = 1;
+                    SudokuDifficultySelector.Enabled = false;
+                    CreateRandomPuzzle();
+                    TriggerButton.Text = "Pause Game";
+                    SudokuTimer.Start();
+                    SudokuTable.Enabled = true;
+                    break;
+                case 1:
+                    SudokuTimer.Stop();
+                    TriggerButton.Text = "Resume Game";
+                    SudokuTable.Enabled = false;
+                    GameState = 2;
+                    break;
+                case 2:
+                    SudokuTimer.Start();
+                    TriggerButton.Text = "Pause Game";
+                    SudokuTable.Enabled = true;
+                    GameState = 1;
+                    break;
+            }
         }
+        private void OnTimeEvent(object sender, ElapsedEventArgs e)
+        {
+            Invoke(new Action(() =>
+                {
+                    second += 1;
+                    if (second == 60)
+                    {
+                        second = 0;
+                        minute += 1;
+                    }
+                    if (minute == 60)
+                    {
+                        minute = 0;
+                        hour += 1;
+                    }
+                    TimeCounter.Text = string.Format("{0}:{1}:{2}", hour.ToString().PadLeft(2, '0'), minute.ToString().PadLeft(2, '0'), second.ToString().PadLeft(2, '0'));
+                }   
+            ));
+        }
+
     }
 }
