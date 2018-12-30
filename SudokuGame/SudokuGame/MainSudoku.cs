@@ -16,20 +16,22 @@ namespace SudokuGame
         //Global variables
         public Random random = new Random();
         public int GameState = 0;
+        public int SaveState = 0;
+        public int LoadState = 0;
         public int DifficultyIndicator;
         public int DeletedCellCounter;
         public int[,] SudokuMatrix = new int[9, 9];
         public int[,] SudokuSolve = new int[9, 9];
         //Global Timer
         System.Timers.Timer SudokuTimer;
-        public int hour, minute, second;
+        public int hour = 0, minute = 0, second = 0;
         //---------------------------------Custom Functon Section-------------------------------------------------
-        public void BuildSudokuTable ()
-        {                    
+        public void BuildSudokuTable()
+        {
             //This function render Sudoku table as DataGridView
             //Initialize DataGridView
             SudokuTable.ColumnCount = 9;
-            SudokuTable.Rows.Add(9);               
+            SudokuTable.Rows.Add(9);
             //Run loop to render column and row and limit cell input is 1 character
             for (int i = 0; i < 9; i++)
             {
@@ -48,7 +50,7 @@ namespace SudokuGame
             //Set height for divider
             SudokuTable.Rows[2].Height += 5;
             SudokuTable.Rows[5].Height += 5;
-  
+
             //Run loop to fill LightCyan color to DataGridView
             for (int i = 0; i < 9; i++)
             {
@@ -90,17 +92,158 @@ namespace SudokuGame
                 this.Dispose(false);
             }
         }
+        public void SaveGame()
+        {
+            SudokuTimer.Stop();
+            string text = "";
+            string CellValue;
+            string GameDifficulty = DifficultyIndicator.ToString();
+            string ExportSecond = (second < 10) ? ("0" + second.ToString()) : (second.ToString());
+            string ExportMinute = (minute < 10) ? ("0" + minute.ToString()) : (minute.ToString());
+            string ExportHour = (hour < 10) ? ("0" + hour.ToString()) : (hour.ToString());
+            int EmptyCell;
+
+            SaveFileDialog SaveGameDialog = new SaveFileDialog();
+            SaveGameDialog.Filter = "Sudoku Game (*.game)|*.game";
+            SaveGameDialog.AddExtension = true;
+            SaveGameDialog.OverwritePrompt = true;
+            SaveGameDialog.Title = "Save Sudoku Game";
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    CellValue = (SudokuTable[i, j].Value.ToString());
+                    if (CellValue == "")
+                    {
+                        CellValue = "0";
+                    }
+                    EmptyCell = Convert.ToInt32(CellValue);
+                    if (EmptyCell == 0)
+                    {
+                        text += "0";
+                    }
+                    else
+                    {
+                        text += SudokuTable[i, j].Value.ToString();
+                    }
+                }
+            }
+            text += ExportHour;
+            text += ExportMinute;
+            text += ExportSecond;
+            text += GameDifficulty;
+            DialogResult result = SaveGameDialog.ShowDialog();
+            try
+            {
+                if (result == DialogResult.OK)
+                {
+                    string difficulty = SudokuDifficultySelector.SelectedItem.ToString();
+                    SaveState = 2;
+                    System.IO.File.WriteAllText(SaveGameDialog.FileName, text);
+                    MessageBox.Show("Save Game Successful \n Difficulty: " + difficulty + "\n Time: " + ExportHour + " : " + ExportMinute + " : " + ExportSecond, "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    SudokuTimer.Start();
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Error Saving Game File ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                SudokuTimer.Start();
+            }
+        }
+        public void LoadGame()
+        {
+            SudokuTimer.Stop();
+            OpenFileDialog LoadGameDialog = new OpenFileDialog();
+            LoadGameDialog.CheckFileExists = true;
+            LoadGameDialog.Filter = "Sudoku Game (*.game)|*.game";
+            LoadGameDialog.Multiselect = false;
+            LoadGameDialog.Title = "Load Sudoku Game";
+            DialogResult result = LoadGameDialog.ShowDialog();
+            try
+            {
+                if (result == DialogResult.OK)
+                {
+                    LoadState = 1;
+                    SudokuTable.Enabled = true;
+                    string text = System.IO.File.ReadAllText(LoadGameDialog.FileName);
+                    int a = 0, b = 0, indicator = 0, impHour = 0, impMinute = 0, impSecond = 0;
+                    for (int i = 0; i < SudokuMatrix.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < SudokuMatrix.GetLength(1); j++)
+                        {
+                            SudokuTable[j, i].Value = "";
+                        }
+                    }
+                    for (int i = 0; i < 80; i++)
+                    {
+                        string CellValue = text[i].ToString();
+                        int value = 0;
+                        if (int.TryParse(CellValue, out value))
+                        {
+                            a = (i / 9);
+                            b = i % 9;
+                            SudokuMatrix[a, b] = value;
+                        }
+                    }
+                    string TempIndicator = text[text.Length - 1].ToString();
+                    string ImportHour = (text[81].ToString() != "0") ? (text.Substring(81, 2).ToString()) : (text[82].ToString());
+                    string ImportMinute = (text[83].ToString() != "0") ? (text.Substring(83, 2).ToString()) : (text[84].ToString());
+                    string ImportSecond = (text[85].ToString() != "0") ? (text.Substring(85, 2).ToString()) : (text[8].ToString());
+                    if (int.TryParse(TempIndicator, out indicator))
+                    {
+                        SudokuDifficultySelector.SelectedIndex = indicator;
+                    }
+                    if (int.TryParse(ImportHour, out impHour) && int.TryParse(ImportMinute, out impMinute) && int.TryParse(ImportSecond, out impSecond))
+                    {
+                        hour = impHour;
+                        minute = impMinute;
+                        second = impSecond;
+                        TimeCounter.Text = string.Format("{0}:{1}:{2}", hour.ToString().PadLeft(2, '0'), minute.ToString().PadLeft(2, '0'), second.ToString().PadLeft(2, '0'));
+
+                    }
+                    string difficulty = SudokuDifficultySelector.SelectedItem.ToString();
+                    MessageBox.Show("Load Game Successful \n Difficulty: " + difficulty + "\n Time: " + ImportHour + " : " + ImportMinute + " : " + ImportSecond, "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ChangeComponentState();
+                    SudokuTimer.Start();
+                    TriggerButton.Text = "Pause Game";
+                    ShowMatrix();
+                    GameState = 1;
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Error Opening Game File ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                SudokuTimer.Start();
+            }
+        }
         public void AboutGame()
         {
-            MessageBox.Show("Contributor of game's sourcecode \n\n 1. Hồ Vũ Minh Đức \n 2. Nguyễn Duy Hiếu \n 3. Đỗ Quốc Khánh",  "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Contributor of game's sourcecode \n\n 1. Hồ Vũ Minh Đức \n 2. Nguyễn Duy Hiếu \n 3. Đỗ Quốc Khánh", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         public void ExitGame()
         {
             //This function will pop up confirmation box and ask user if he/she want to exit
-            DialogResult result = MessageBox.Show("Are you sure you want to exit", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2);
-            if (result == DialogResult.Yes)
+            if (SaveState == 1)
             {
-                Environment.Exit(0);
+                DialogResult NotSaved = MessageBox.Show("Do you want to save game", "Confirmation", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button3);
+                if (NotSaved == DialogResult.Yes)
+                {
+                    SaveGame();
+                }
+                if (NotSaved == DialogResult.No)
+                {
+                    Application.ExitThread();
+                    Application.Exit();
+                }
+            }
+            else if (SaveState == 2 || SaveState == 0)
+            {
+                DialogResult Saved = MessageBox.Show("Are you sure you want to exit", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2);
+                if (Saved == DialogResult.Yes)
+                {
+                    Application.ExitThread();
+                    Application.Exit();
+                }
             }
         }
         public void CreateRandomPuzzle()
@@ -188,7 +331,20 @@ namespace SudokuGame
                 }
             }
         }
+        public void ChangeComponentState()
+        {
+            SudokuNewGame.Enabled = true;
+            SudokuSaveGame.Enabled = true;
+            SudokuValidate.Enabled = true;
+            SudokuSolver.Enabled = true;
+            SaveButton.Enabled = true;
+            ValidateButton.Enabled = true;
+            SolveButton.Enabled = true;
+            SudokuDifficultySelector.Enabled = false;
+        }
+
         //---------------------------------------Section End---------------------------------------------------------------
+        //---------------------------------------Event Function Section----------------------------------------------------
         public SudokuMainForm()
         {
             //Initialize form
@@ -212,8 +368,10 @@ namespace SudokuGame
                     NewGame();
                     break;
                 case "F2":
+                    SaveGame();
                     break;
                 case "F3":
+                    LoadGame();
                     break;
                 case "F4":
                     break;
@@ -254,11 +412,12 @@ namespace SudokuGame
         }
         private void SudokuSaveGame_Click(object sender, EventArgs e)
         {
-
+            SaveGame();
         }
         private void SudokuLoadGame_Click(object sender, EventArgs e)
         {
             //When click load game button, application will input data from selected file to application
+            LoadGame();
         }
         private void SudokuHelp_Click(object sender, EventArgs e)
         {
@@ -278,9 +437,35 @@ namespace SudokuGame
         {
             //When click validate button, application will consider if player is win or not 
         }
-        private void SudokuHighScore_Click(object sender, EventArgs e)
+        private void SaveButton_Click(object sender, EventArgs e)
         {
-            //When click high score button, a dialog box will be appeared to give information of top ten record with lowest time
+            SaveGame();
+        }
+        private void LoadButton_Click(object sender, EventArgs e)
+        {
+            LoadGame();
+        }
+
+        private void Validate_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SolveButton_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void HelpButton_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void AboutButton_Click(object sender, EventArgs e)
+        {
+            AboutGame();
+        }
+        private void ExitButton_Click(object sender, EventArgs e)
+        {
+            ExitGame();
         }
         private void SudokuTable_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
@@ -302,23 +487,20 @@ namespace SudokuGame
         }
         private void SudokuDifficultySelector_SelectedIndexChanged(object sender, EventArgs e)
         {
+            TriggerButton.Enabled = true;
             switch (SudokuDifficultySelector.SelectedIndex)
             {
                 case 0:
                     DifficultyIndicator = 1;
-                    TriggerButton.Enabled = true;
                     break;
                 case 1:
                     DifficultyIndicator = 2;
-                    TriggerButton.Enabled = true;
                     break;
                 case 2:
                     DifficultyIndicator = 3;
-                    TriggerButton.Enabled = true;
                     break;
                 case 3:
                     DifficultyIndicator = 4;
-                    TriggerButton.Enabled = true;
                     break;
             }
         }
@@ -332,7 +514,8 @@ namespace SudokuGame
             {
                 case 0:
                     GameState = 1;
-                    SudokuDifficultySelector.Enabled = false;
+                    SaveState = 1;
+                    ChangeComponentState();
                     CreateRandomPuzzle();
                     TriggerButton.Text = "Pause Game";
                     SudokuTimer.Start();
@@ -371,6 +554,6 @@ namespace SudokuGame
                 }   
             ));
         }
-
+        //--------------------------------------------Section End------------------------------------------------
     }
 }
