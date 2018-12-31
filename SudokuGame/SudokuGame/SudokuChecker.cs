@@ -70,13 +70,40 @@ namespace SudokuGame
             }
             return false;
         }
+        public static bool ValidateCell(int[,] board, int row, int column, int value)
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                if (board[row, i] == value && i != column)
+                {
+                    return false;
+                }
+                if (board[i, column] == value && i != row)
+                {
+                    return false;
+                }
+            }
+            row = (row / 3) * 3;
+            column = (column / 3) * 3;
+            for (int i = row; i < row + 3; i++)
+            {
+                for (int j = column; j < column + 3; j++)
+                {
+                    if (board[i, j] == value && i != row && i != column)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
         public static bool ValidateSudoku(int[,] board)
         {
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    if (SudokuChecker.CheckCellIsSafe(board, i, j, board[i, j]) == false)
+                    if (ValidateCell(board, i, j, board[i, j]) == false)
                     {
                         return false;
                     }

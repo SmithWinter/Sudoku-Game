@@ -95,8 +95,6 @@ namespace SudokuGame
         }
         public void SaveGame()
         {
-            GameState = 1;
-            CheckGameState();
             string text = "";
             string CellValue;
             string GameDifficulty = DifficultyIndicator.ToString();
@@ -146,17 +144,20 @@ namespace SudokuGame
                     string difficulty = SudokuDifficultySelector.SelectedItem.ToString();
                     SaveState = 2;
                     System.IO.File.WriteAllText(SaveGameDialog.FileName, text);
-                    MessageBox.Show(" Save Game Successful \n Difficulty: " + difficulty + "\n Time: " + ExportHour + " : " + ExportMinute + " : " + ExportSecond + "\n Selected Cell: " + "[" + (CurrentRow + 1) + ":" + (CurrentColumn + 1) + "]" , "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(" Save game successful \n Difficulty: " + difficulty + "\n Time: " + ExportHour + " : " + ExportMinute + " : " + ExportSecond + "\n Selected Cell: " + "[" + (CurrentRow + 1) + ":" + (CurrentColumn + 1) + "]" , "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    AddInstructorText("Save game successful");
+                    AddInstructorText("Difficulty: " + difficulty);
+                    AddInstructorText("Time: " + ExportHour + ":" + ExportMinute + ":" + ExportSecond);
+                    
                 }
                 if (result == DialogResult.Cancel)
                 {
-                    GameState = 1;
-                    CheckGameState();
+                    AddInstructorText("Game save canceled");
                 }
             }
             catch
             {
-                MessageBox.Show("Error Saving Game File ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error saving game file ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 GameState = 2;
                 CheckGameState();
             }
@@ -231,8 +232,11 @@ namespace SudokuGame
                         CurrentRow = impCurrentRow;
                     }
                     string difficulty = SudokuDifficultySelector.SelectedItem.ToString();
-                    MessageBox.Show(" Load Game Successful \n Difficulty: " + difficulty + "\n Time: " + ImportHour + " : " + ImportMinute + " : " + ImportSecond + "\n Selected Cell: " + "[" + (CurrentRow + 1).ToString() + ":" + (CurrentColumn + 1).ToString() + "]", "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                    MessageBox.Show(" Load game successful \n Difficulty: " + difficulty + "\n Time: " + ImportHour + " : " + ImportMinute + " : " + ImportSecond + "\n Selected Cell: " + "[" + (CurrentRow + 1).ToString() + ":" + (CurrentColumn + 1).ToString() + "]", "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    AddInstructorText("Load game successful");
+                    AddInstructorText("Time: " + ImportHour + ":" + ImportMinute + ":" + ImportSecond);
+                    AddInstructorText("Difficulty: " + difficulty);
+                    AddInstructorText("Selected cell: " + "[" + (CurrentRow + 1).ToString() + ":" + (CurrentColumn + 1).ToString() + "]");
                     SaveState = 1;
                     GameState = 1;
                     CheckGameState();
@@ -247,22 +251,33 @@ namespace SudokuGame
                 {
                     if (GameState == 0)
                     {
+                        AddInstructorText("Game load canceled");
                         TriggerButton.Text = "Start Game";
                         SaveButton.Enabled = false;
                     }
                     else
                     {
-                        GameState = 1;
-                        CheckGameState();
+                        AddInstructorText("Game load canceled");
                     }
                 }
             }
             catch
             {
-                MessageBox.Show("Error Opening Game File ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-    
-                GameState = 2;
-                CheckGameState();
+                MessageBox.Show("Error loading game file ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                AddInstructorText("Game load error");
+                if (GameState == 0 || SudokuDifficultySelector.SelectedIndex != -1)
+                {
+                    TriggerButton.Enabled = false;
+                    SaveButton.Enabled = false;
+                    SudokuDifficultySelector.ResetText();
+                    SudokuDifficultySelector.SelectedIndex = -1;
+                }
+                else
+                {
+                    GameState = 1;
+                    CheckGameState();
+                }
+
             }
         }
         public void AboutGame()
@@ -394,7 +409,7 @@ namespace SudokuGame
         {
             if (SudokuChecker.SudokuSolver(SudokuMatrix, 0, 0))
             {
-                MessageBox.Show(" Resolve successful \n Timer will be reseted", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(" Resolve successful \n Timer will be reseted \n Please start a new game", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 SudokuTimer.Stop();
                 hour = 0; minute = 0; second = 0;
                 TimeCounter.Text = string.Format("{0}:{1}:{2}", hour.ToString().PadLeft(2, '0'), minute.ToString().PadLeft(2, '0'), second.ToString().PadLeft(2, '0'));
@@ -428,28 +443,36 @@ namespace SudokuGame
                     TriggerButton.Text = "Pause Game";
                     SudokuTimer.Start();
                     SudokuTable.Enabled = true;
+                    AddInstructorText("Game started. Clock start ticking");
                     break;
                 case 1:
+                    GameState = 2;
                     SudokuTimer.Stop();
                     TriggerButton.Text = "Resume Game";
                     SaveButton.Enabled = true;
                     LoadButton.Enabled = true;
                     SudokuTable.Enabled = false;
-                    GameState = 2;
+                    AddInstructorText("Game paused. Clock stop ticking");
                     break;
                 case 2:
+                    GameState = 1;
                     SudokuTimer.Start();
                     TriggerButton.Text = "Pause Game";
                     SaveButton.Enabled = false;
                     LoadButton.Enabled = false;
                     SudokuTable.Enabled = true;
-                    GameState = 1;
+                    AddInstructorText("Game continued. Clock resume ticking");
                     break;
             }
         }
-
-
+        public void AddInstructorText (string input)
+        {
+            GameInstructor.AppendText(input);
+            GameInstructor.AppendText(Environment.NewLine);
+        }
         //---------------------------------------Section End---------------------------------------------------------------
+
+
         //---------------------------------------Event Function Section----------------------------------------------------
         public SudokuMainForm()
         {
@@ -557,15 +580,19 @@ namespace SudokuGame
             {
                 case 0:
                     DifficultyIndicator = 1;
+                    AddInstructorText("You selected beginner difficulty");
                     break;
                 case 1:
                     DifficultyIndicator = 2;
+                    AddInstructorText("You selected intermediate difficulty");
                     break;
                 case 2:
                     DifficultyIndicator = 3;
+                    AddInstructorText("You selected advanced difficulty");
                     break;
                 case 3:
                     DifficultyIndicator = 4;
+                    AddInstructorText("You selected expert difficulty");
                     break;
             }
         }

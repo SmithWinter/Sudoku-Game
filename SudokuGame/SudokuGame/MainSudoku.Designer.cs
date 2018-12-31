@@ -50,17 +50,17 @@
             this.TriggerButton = new System.Windows.Forms.Button();
             this.LoadButton = new System.Windows.Forms.Button();
             this.ValidateButton = new System.Windows.Forms.Button();
-            this.HighScoreList = new System.Windows.Forms.TextBox();
+            this.GameInstructor = new System.Windows.Forms.TextBox();
             this.HelpButton = new System.Windows.Forms.Button();
             this.AboutButton = new System.Windows.Forms.Button();
-            this.SudokuHighScoreContainer = new System.Windows.Forms.GroupBox();
+            this.SudokuGameInstructorContainer = new System.Windows.Forms.GroupBox();
             this.ExitButton = new System.Windows.Forms.Button();
             this.SolveButton = new System.Windows.Forms.Button();
             this.NewGameButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.SudokuTable)).BeginInit();
             this.SudokuDifficultySelectorContainer.SuspendLayout();
             this.SudokuTimerContainer.SuspendLayout();
-            this.SudokuHighScoreContainer.SuspendLayout();
+            this.SudokuGameInstructorContainer.SuspendLayout();
             this.SuspendLayout();
             // 
             // Column1
@@ -154,13 +154,14 @@
             "Expert"});
             this.SudokuDifficultySelector.Location = new System.Drawing.Point(16, 25);
             this.SudokuDifficultySelector.Name = "SudokuDifficultySelector";
-            this.SudokuDifficultySelector.Size = new System.Drawing.Size(121, 21);
+            this.SudokuDifficultySelector.Size = new System.Drawing.Size(121, 24);
             this.SudokuDifficultySelector.TabIndex = 6;
             this.SudokuDifficultySelector.SelectedIndexChanged += new System.EventHandler(this.SudokuDifficultySelector_SelectedIndexChanged);
             // 
             // SudokuDifficultySelectorContainer
             // 
             this.SudokuDifficultySelectorContainer.Controls.Add(this.SudokuDifficultySelector);
+            this.SudokuDifficultySelectorContainer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.SudokuDifficultySelectorContainer.Location = new System.Drawing.Point(25, 19);
             this.SudokuDifficultySelectorContainer.Name = "SudokuDifficultySelectorContainer";
             this.SudokuDifficultySelectorContainer.Size = new System.Drawing.Size(155, 73);
@@ -182,6 +183,7 @@
             // SudokuTimerContainer
             // 
             this.SudokuTimerContainer.Controls.Add(this.TimeCounter);
+            this.SudokuTimerContainer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.SudokuTimerContainer.Location = new System.Drawing.Point(208, 19);
             this.SudokuTimerContainer.Name = "SudokuTimerContainer";
             this.SudokuTimerContainer.Size = new System.Drawing.Size(162, 73);
@@ -232,16 +234,20 @@
             this.ValidateButton.UseVisualStyleBackColor = true;
             this.ValidateButton.Click += new System.EventHandler(this.ValidateButton_Click);
             // 
-            // HighScoreList
+            // GameInstructor
             // 
-            this.HighScoreList.Cursor = System.Windows.Forms.Cursors.Default;
-            this.HighScoreList.Location = new System.Drawing.Point(6, 19);
-            this.HighScoreList.Multiline = true;
-            this.HighScoreList.Name = "HighScoreList";
-            this.HighScoreList.ReadOnly = true;
-            this.HighScoreList.Size = new System.Drawing.Size(250, 184);
-            this.HighScoreList.TabIndex = 19;
-            this.HighScoreList.Text = "Please choose difficulty before start game";
+            this.GameInstructor.Cursor = System.Windows.Forms.Cursors.Default;
+            this.GameInstructor.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.GameInstructor.Location = new System.Drawing.Point(6, 19);
+            this.GameInstructor.Multiline = true;
+            this.GameInstructor.Name = "GameInstructor";
+            this.GameInstructor.ReadOnly = true;
+            this.GameInstructor.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.GameInstructor.Size = new System.Drawing.Size(250, 184);
+            this.GameInstructor.TabIndex = 19;
+            this.GameInstructor.Text = "Please choose difficulty before start a new game\r\nIf you don\'t want to start a ne" +
+    "w game, you can load game from proper save file\r\nOnly beginner difficulty has ga" +
+    "me helper\r\n";
             // 
             // HelpButton
             // 
@@ -263,15 +269,16 @@
             this.AboutButton.UseVisualStyleBackColor = true;
             this.AboutButton.Click += new System.EventHandler(this.AboutButton_Click);
             // 
-            // SudokuHighScoreContainer
+            // SudokuGameInstructorContainer
             // 
-            this.SudokuHighScoreContainer.Controls.Add(this.HighScoreList);
-            this.SudokuHighScoreContainer.Location = new System.Drawing.Point(25, 169);
-            this.SudokuHighScoreContainer.Name = "SudokuHighScoreContainer";
-            this.SudokuHighScoreContainer.Size = new System.Drawing.Size(263, 220);
-            this.SudokuHighScoreContainer.TabIndex = 22;
-            this.SudokuHighScoreContainer.TabStop = false;
-            this.SudokuHighScoreContainer.Text = "Game Instructor";
+            this.SudokuGameInstructorContainer.Controls.Add(this.GameInstructor);
+            this.SudokuGameInstructorContainer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.SudokuGameInstructorContainer.Location = new System.Drawing.Point(25, 169);
+            this.SudokuGameInstructorContainer.Name = "SudokuGameInstructorContainer";
+            this.SudokuGameInstructorContainer.Size = new System.Drawing.Size(263, 220);
+            this.SudokuGameInstructorContainer.TabIndex = 22;
+            this.SudokuGameInstructorContainer.TabStop = false;
+            this.SudokuGameInstructorContainer.Text = "Game Instructor";
             // 
             // ExitButton
             // 
@@ -315,7 +322,7 @@
             this.Controls.Add(this.TriggerButton);
             this.Controls.Add(this.SudokuTable);
             this.Controls.Add(this.ExitButton);
-            this.Controls.Add(this.SudokuHighScoreContainer);
+            this.Controls.Add(this.SudokuGameInstructorContainer);
             this.Controls.Add(this.AboutButton);
             this.Controls.Add(this.HelpButton);
             this.Controls.Add(this.ValidateButton);
@@ -336,8 +343,8 @@
             this.SudokuDifficultySelectorContainer.ResumeLayout(false);
             this.SudokuTimerContainer.ResumeLayout(false);
             this.SudokuTimerContainer.PerformLayout();
-            this.SudokuHighScoreContainer.ResumeLayout(false);
-            this.SudokuHighScoreContainer.PerformLayout();
+            this.SudokuGameInstructorContainer.ResumeLayout(false);
+            this.SudokuGameInstructorContainer.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -361,10 +368,10 @@
         private System.Windows.Forms.Button TriggerButton;
         private System.Windows.Forms.Button LoadButton;
         private System.Windows.Forms.Button ValidateButton;
-        private System.Windows.Forms.TextBox HighScoreList;
+        private System.Windows.Forms.TextBox GameInstructor;
         private System.Windows.Forms.Button HelpButton;
         private System.Windows.Forms.Button AboutButton;
-        private System.Windows.Forms.GroupBox SudokuHighScoreContainer;
+        private System.Windows.Forms.GroupBox SudokuGameInstructorContainer;
         private System.Windows.Forms.Button ExitButton;
         private System.Windows.Forms.Button SolveButton;
         private System.Windows.Forms.Button NewGameButton;
