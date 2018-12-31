@@ -230,16 +230,18 @@
             this.ValidateButton.TabIndex = 18;
             this.ValidateButton.Text = "Validate Sudoku";
             this.ValidateButton.UseVisualStyleBackColor = true;
-            this.ValidateButton.Click += new System.EventHandler(this.Validate_Click);
+            this.ValidateButton.Click += new System.EventHandler(this.ValidateButton_Click);
             // 
             // HighScoreList
             // 
+            this.HighScoreList.Cursor = System.Windows.Forms.Cursors.Default;
             this.HighScoreList.Location = new System.Drawing.Point(6, 19);
             this.HighScoreList.Multiline = true;
             this.HighScoreList.Name = "HighScoreList";
             this.HighScoreList.ReadOnly = true;
             this.HighScoreList.Size = new System.Drawing.Size(250, 184);
             this.HighScoreList.TabIndex = 19;
+            this.HighScoreList.Text = "Please choose difficulty before start game";
             // 
             // HelpButton
             // 
@@ -269,7 +271,7 @@
             this.SudokuHighScoreContainer.Size = new System.Drawing.Size(263, 220);
             this.SudokuHighScoreContainer.TabIndex = 22;
             this.SudokuHighScoreContainer.TabStop = false;
-            this.SudokuHighScoreContainer.Text = "Game Log";
+            this.SudokuHighScoreContainer.Text = "Game Instructor";
             // 
             // ExitButton
             // 

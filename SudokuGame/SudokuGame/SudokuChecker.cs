@@ -8,20 +8,22 @@ namespace SudokuGame
 {
     public class SudokuChecker
     {
-        public static bool safe(int[,] a, int x, int y, int value)
+        public static bool CheckCellIsSafe(int[,] board, int row, int column, int value)
         {
             for (int i = 0; i < 9; i++)
-                if (a[x, i] == value || a[i, y] == value)
+            {
+                if (board[row, i] == value || board[i, column] == value)
                 {
                     return false;
                 }
-            x = (x / 3) * 3;
-            y = (y / 3) * 3;
-            for (int i = x; i < x + 3; i++)
+            }
+            row = (row / 3) * 3;
+            column = (column / 3) * 3;
+            for (int i = row; i < row + 3; i++)
             {
-                for (int j = y; j < y + 3; j++)
+                for (int j = column; j < column + 3; j++)
                 {
-                    if (a[i, j] == value)
+                    if (board[i, j] == value)
                     {
                         return false;
                     }
@@ -29,47 +31,58 @@ namespace SudokuGame
             }
             return true;
         }
-
-        public static bool check(int[,] a, ref int x, ref int y)
+        public static bool CheckEmptyCell(int[,] board, ref int row, ref int column)
         {
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    if (a[i, j] == 0)
+                    if (board[i, j] == 0)
                     {
-                        x = i;
-                        y = j;
+                        row = i;
+                        column = j;
                         return false;
                     }
                 }
             }
             return true;
         }
-
-        public static bool solve(int[,] a, int x, int y)
+        public static bool SudokuSolver(int[,] board, int row, int column)
         {
-            if (check(a, ref x, ref y))
+            if (CheckEmptyCell(board, ref row, ref column))
             {
                 return true;
             }
             for (int i = 1; i <= 9; i++)
             {
-                if (safe(a, x, y, i))
+                if (CheckCellIsSafe(board, row, column, i))
                 {
-                    a[x, y] = i;
-                    if (solve(a, x, y))
+                    board[row, column] = i;
+                    if (SudokuSolver(board, row, column))
                     {
                         return true;
                     }
                     else
                     {
-                        a[x, y] = 0;
+                        board[row, column] = 0;
                     }
                 }
             }
             return false;
-
+        }
+        public static bool ValidateSudoku(int[,] board)
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    if (SudokuChecker.CheckCellIsSafe(board, i, j, board[i, j]) == false)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
     }
 }
