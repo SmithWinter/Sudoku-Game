@@ -312,8 +312,8 @@ namespace SudokuGame
                 }
             }
             Randomize.Mix(SudokuMatrix);
-            SudokuSolve = Copy(SudokuMatrix, SudokuSolve);
             MatrixAllocation();
+            SudokuSolve = Copy(SudokuMatrix, SudokuSolve);
             ShowMatrix();
         }
         public int[,] Copy(int[,] matrix, int[,] solve)
@@ -371,6 +371,11 @@ namespace SudokuGame
                     }
                 }
             }
+        }
+        public void SolveGame ()
+        {
+            SudokuChecker.solve(SudokuMatrix, 0, 0);
+            ShowMatrix();
         }
         public void ChangeComponentState()
         {
@@ -456,7 +461,7 @@ namespace SudokuGame
 
         private void SolveButton_Click(object sender, EventArgs e)
         {
-
+            SolveGame();
         }
         private void HelpButton_Click(object sender, EventArgs e)
         {
