@@ -144,6 +144,13 @@
   <metadata name="Column9.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="GameInstructor.Text" xml:space="preserve">
+    <value>-Choose difficulty then start a new game
+-If you don't want to start a new game, you can load game from proper save file
+-Only beginner difficulty has game helper
+-Only update value when another cell selected
+</value>
+  </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>73</value>
   </metadata>
