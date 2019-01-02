@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SudokuMainForm));
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,12 +51,12 @@
             this.LoadButton = new System.Windows.Forms.Button();
             this.ValidateButton = new System.Windows.Forms.Button();
             this.GameInstructor = new System.Windows.Forms.TextBox();
-            this.HelpButton = new System.Windows.Forms.Button();
             this.AboutButton = new System.Windows.Forms.Button();
             this.SudokuGameInstructorContainer = new System.Windows.Forms.GroupBox();
             this.ExitButton = new System.Windows.Forms.Button();
             this.SolveButton = new System.Windows.Forms.Button();
             this.NewGameButton = new System.Windows.Forms.Button();
+            this.SuggestButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.SudokuTable)).BeginInit();
             this.SudokuDifficultySelectorContainer.SuspendLayout();
             this.SudokuTimerContainer.SuspendLayout();
@@ -105,33 +105,33 @@
             this.SudokuTable.AllowUserToDeleteRows = false;
             this.SudokuTable.AllowUserToResizeColumns = false;
             this.SudokuTable.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
-            this.SudokuTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
+            this.SudokuTable.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
             this.SudokuTable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.SudokuTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.SudokuTable.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
             this.SudokuTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.SudokuTable.ColumnHeadersVisible = false;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.SudokuTable.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.SudokuTable.DefaultCellStyle = dataGridViewCellStyle9;
             this.SudokuTable.Enabled = false;
             this.SudokuTable.GridColor = System.Drawing.Color.Black;
-            this.SudokuTable.Location = new System.Drawing.Point(397, 19);
+            this.SudokuTable.Location = new System.Drawing.Point(458, 19);
             this.SudokuTable.Margin = new System.Windows.Forms.Padding(10);
             this.SudokuTable.MultiSelect = false;
             this.SudokuTable.Name = "SudokuTable";
@@ -139,6 +139,7 @@
             this.SudokuTable.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.SudokuTable.Size = new System.Drawing.Size(360, 370);
             this.SudokuTable.TabIndex = 0;
+            this.SudokuTable.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.SudokuTable_CellBeginEdit);
             this.SudokuTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.SudokuTable_CellEndEdit);
             this.SudokuTable.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.SudokuTable_CellEnter);
             this.SudokuTable.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.SudokuTable_CellValidating);
@@ -152,7 +153,7 @@
             "Intermediate",
             "Advanced",
             "Expert"});
-            this.SudokuDifficultySelector.Location = new System.Drawing.Point(16, 25);
+            this.SudokuDifficultySelector.Location = new System.Drawing.Point(39, 25);
             this.SudokuDifficultySelector.Name = "SudokuDifficultySelector";
             this.SudokuDifficultySelector.Size = new System.Drawing.Size(121, 24);
             this.SudokuDifficultySelector.TabIndex = 6;
@@ -164,7 +165,7 @@
             this.SudokuDifficultySelectorContainer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.SudokuDifficultySelectorContainer.Location = new System.Drawing.Point(25, 19);
             this.SudokuDifficultySelectorContainer.Name = "SudokuDifficultySelectorContainer";
-            this.SudokuDifficultySelectorContainer.Size = new System.Drawing.Size(155, 73);
+            this.SudokuDifficultySelectorContainer.Size = new System.Drawing.Size(195, 73);
             this.SudokuDifficultySelectorContainer.TabIndex = 7;
             this.SudokuDifficultySelectorContainer.TabStop = false;
             this.SudokuDifficultySelectorContainer.Text = "Difficulty Selector";
@@ -173,7 +174,7 @@
             // 
             this.TimeCounter.AutoSize = true;
             this.TimeCounter.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TimeCounter.Location = new System.Drawing.Point(18, 25);
+            this.TimeCounter.Location = new System.Drawing.Point(35, 25);
             this.TimeCounter.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.TimeCounter.Name = "TimeCounter";
             this.TimeCounter.Size = new System.Drawing.Size(128, 31);
@@ -184,9 +185,9 @@
             // 
             this.SudokuTimerContainer.Controls.Add(this.TimeCounter);
             this.SudokuTimerContainer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.SudokuTimerContainer.Location = new System.Drawing.Point(208, 19);
+            this.SudokuTimerContainer.Location = new System.Drawing.Point(235, 19);
             this.SudokuTimerContainer.Name = "SudokuTimerContainer";
-            this.SudokuTimerContainer.Size = new System.Drawing.Size(162, 73);
+            this.SudokuTimerContainer.Size = new System.Drawing.Size(195, 73);
             this.SudokuTimerContainer.TabIndex = 14;
             this.SudokuTimerContainer.TabStop = false;
             this.SudokuTimerContainer.Text = "Game Timer";
@@ -194,7 +195,7 @@
             // SaveButton
             // 
             this.SaveButton.Enabled = false;
-            this.SaveButton.Location = new System.Drawing.Point(96, 98);
+            this.SaveButton.Location = new System.Drawing.Point(95, 98);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(55, 55);
             this.SaveButton.TabIndex = 15;
@@ -215,7 +216,7 @@
             // 
             // LoadButton
             // 
-            this.LoadButton.Location = new System.Drawing.Point(170, 98);
+            this.LoadButton.Location = new System.Drawing.Point(165, 98);
             this.LoadButton.Name = "LoadButton";
             this.LoadButton.Size = new System.Drawing.Size(55, 55);
             this.LoadButton.TabIndex = 17;
@@ -226,11 +227,11 @@
             // ValidateButton
             // 
             this.ValidateButton.Enabled = false;
-            this.ValidateButton.Location = new System.Drawing.Point(243, 98);
+            this.ValidateButton.Location = new System.Drawing.Point(305, 98);
             this.ValidateButton.Name = "ValidateButton";
             this.ValidateButton.Size = new System.Drawing.Size(55, 55);
             this.ValidateButton.TabIndex = 18;
-            this.ValidateButton.Text = "Validate Sudoku";
+            this.ValidateButton.Text = "Validate";
             this.ValidateButton.UseVisualStyleBackColor = true;
             this.ValidateButton.Click += new System.EventHandler(this.ValidateButton_Click);
             // 
@@ -243,25 +244,13 @@
             this.GameInstructor.Name = "GameInstructor";
             this.GameInstructor.ReadOnly = true;
             this.GameInstructor.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.GameInstructor.Size = new System.Drawing.Size(250, 184);
+            this.GameInstructor.Size = new System.Drawing.Size(315, 184);
             this.GameInstructor.TabIndex = 19;
-            this.GameInstructor.Text = "Please choose difficulty before start a new game\r\nIf you don\'t want to start a ne" +
-    "w game, you can load game from proper save file\r\nOnly beginner difficulty has ga" +
-    "me helper\r\n";
-            // 
-            // HelpButton
-            // 
-            this.HelpButton.Location = new System.Drawing.Point(294, 226);
-            this.HelpButton.Name = "HelpButton";
-            this.HelpButton.Size = new System.Drawing.Size(76, 50);
-            this.HelpButton.TabIndex = 20;
-            this.HelpButton.Text = "Help";
-            this.HelpButton.UseVisualStyleBackColor = true;
-            this.HelpButton.Click += new System.EventHandler(this.HelpButton_Click);
+            this.GameInstructor.Text = resources.GetString("GameInstructor.Text");
             // 
             // AboutButton
             // 
-            this.AboutButton.Location = new System.Drawing.Point(294, 282);
+            this.AboutButton.Location = new System.Drawing.Point(358, 256);
             this.AboutButton.Name = "AboutButton";
             this.AboutButton.Size = new System.Drawing.Size(76, 50);
             this.AboutButton.TabIndex = 21;
@@ -275,14 +264,14 @@
             this.SudokuGameInstructorContainer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.SudokuGameInstructorContainer.Location = new System.Drawing.Point(25, 169);
             this.SudokuGameInstructorContainer.Name = "SudokuGameInstructorContainer";
-            this.SudokuGameInstructorContainer.Size = new System.Drawing.Size(263, 220);
+            this.SudokuGameInstructorContainer.Size = new System.Drawing.Size(327, 220);
             this.SudokuGameInstructorContainer.TabIndex = 22;
             this.SudokuGameInstructorContainer.TabStop = false;
             this.SudokuGameInstructorContainer.Text = "Game Instructor";
             // 
             // ExitButton
             // 
-            this.ExitButton.Location = new System.Drawing.Point(294, 338);
+            this.ExitButton.Location = new System.Drawing.Point(358, 322);
             this.ExitButton.Name = "ExitButton";
             this.ExitButton.Size = new System.Drawing.Size(76, 50);
             this.ExitButton.TabIndex = 23;
@@ -293,18 +282,18 @@
             // SolveButton
             // 
             this.SolveButton.Enabled = false;
-            this.SolveButton.Location = new System.Drawing.Point(315, 98);
+            this.SolveButton.Location = new System.Drawing.Point(375, 98);
             this.SolveButton.Name = "SolveButton";
             this.SolveButton.Size = new System.Drawing.Size(55, 55);
             this.SolveButton.TabIndex = 24;
-            this.SolveButton.Text = "Solve Sudoku";
+            this.SolveButton.Text = "Solve";
             this.SolveButton.UseVisualStyleBackColor = true;
             this.SolveButton.Click += new System.EventHandler(this.SolveButton_Click);
             // 
             // NewGameButton
             // 
             this.NewGameButton.Enabled = false;
-            this.NewGameButton.Location = new System.Drawing.Point(294, 169);
+            this.NewGameButton.Location = new System.Drawing.Point(358, 188);
             this.NewGameButton.Name = "NewGameButton";
             this.NewGameButton.Size = new System.Drawing.Size(76, 50);
             this.NewGameButton.TabIndex = 25;
@@ -312,11 +301,23 @@
             this.NewGameButton.UseVisualStyleBackColor = true;
             this.NewGameButton.Click += new System.EventHandler(this.NewGameButton_Click);
             // 
+            // SuggestButton
+            // 
+            this.SuggestButton.Enabled = false;
+            this.SuggestButton.Location = new System.Drawing.Point(235, 98);
+            this.SuggestButton.Name = "SuggestButton";
+            this.SuggestButton.Size = new System.Drawing.Size(55, 55);
+            this.SuggestButton.TabIndex = 26;
+            this.SuggestButton.Text = "Suggest";
+            this.SuggestButton.UseVisualStyleBackColor = true;
+            this.SuggestButton.Click += new System.EventHandler(this.SuggestButton_Click);
+            // 
             // SudokuMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(787, 402);
+            this.ClientSize = new System.Drawing.Size(837, 402);
+            this.Controls.Add(this.SuggestButton);
             this.Controls.Add(this.NewGameButton);
             this.Controls.Add(this.SolveButton);
             this.Controls.Add(this.TriggerButton);
@@ -324,7 +325,6 @@
             this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.SudokuGameInstructorContainer);
             this.Controls.Add(this.AboutButton);
-            this.Controls.Add(this.HelpButton);
             this.Controls.Add(this.ValidateButton);
             this.Controls.Add(this.LoadButton);
             this.Controls.Add(this.SaveButton);
@@ -369,12 +369,12 @@
         private System.Windows.Forms.Button LoadButton;
         private System.Windows.Forms.Button ValidateButton;
         private System.Windows.Forms.TextBox GameInstructor;
-        private System.Windows.Forms.Button HelpButton;
         private System.Windows.Forms.Button AboutButton;
         private System.Windows.Forms.GroupBox SudokuGameInstructorContainer;
         private System.Windows.Forms.Button ExitButton;
         private System.Windows.Forms.Button SolveButton;
         private System.Windows.Forms.Button NewGameButton;
+        private System.Windows.Forms.Button SuggestButton;
     }
 }
 

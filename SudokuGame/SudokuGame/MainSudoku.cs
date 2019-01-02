@@ -23,6 +23,7 @@ namespace SudokuGame
         public int DifficultyIndicator;
         public int DeletedCellCounter;
         public int[,] SudokuMatrix = new int[9, 9];
+        public int[,] SudokuTempSolution = new int[9, 9];
         //Global Timer
         System.Timers.Timer SudokuTimer;
         public int hour = 0, minute = 0, second = 0;
@@ -282,7 +283,7 @@ namespace SudokuGame
         }
         public void AboutGame()
         {
-            MessageBox.Show("Contributor of game's sourcecode \n\n 1. Hồ Vũ Minh Đức \n 2. Nguyễn Duy Hiếu \n 3. Đỗ Quốc Khánh", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("CONTRIBUTOR OF GAME'S SOURCECODE \n\n 1. HỒ VŨ MINH ĐỨC \n 2. NGUYỄN DUY HIẾU \n 3. ĐỖ QUỐC KHÁNH", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         public void ExitGame()
         {
@@ -335,6 +336,7 @@ namespace SudokuGame
                 }
             }
             Randomize.Mix(SudokuMatrix);
+            Copy(SudokuMatrix, SudokuTempSolution);
             MatrixAllocation();
             ShowMatrix();
         }
@@ -396,24 +398,33 @@ namespace SudokuGame
         }
         public void ValidateGame ()
         {
-            if (SudokuChecker.ValidateSudoku(SudokuMatrix) == true)
+            if (SudokuChecker.SudokuValidation(SudokuMatrix) == true)
             {
-                MessageBox.Show(" Valid Sudoku", "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                SudokuTimer.Stop();
+                TriggerButton.Enabled = false;
+                SuggestButton.Enabled = false;
+                ValidateButton.Enabled = false;
+                SolveButton.Enabled = false;
+                MessageBox.Show(" Congratulation you have completed the game \n Please start a new game", "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show(" Not Valid Sudoku", "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(" Sorry, the game is not completed yet", "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
         public void SolveGame ()
         {
-            if (SudokuChecker.SudokuSolver(SudokuMatrix, 0, 0))
+            if (SudokuChecker.SudokuSolver(SudokuTempSolution, 0, 0))
             {
                 MessageBox.Show(" Resolve successful \n Timer will be reseted \n Please start a new game", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 SudokuTimer.Stop();
                 hour = 0; minute = 0; second = 0;
                 TimeCounter.Text = string.Format("{0}:{1}:{2}", hour.ToString().PadLeft(2, '0'), minute.ToString().PadLeft(2, '0'), second.ToString().PadLeft(2, '0'));
                 TriggerButton.Enabled = false;
+                SuggestButton.Enabled = false;
+                ValidateButton.Enabled = false;
+                SolveButton.Enabled = false;
+                Copy(SudokuTempSolution, SudokuMatrix);
                 ShowMatrix();
             }
             else
@@ -427,6 +438,7 @@ namespace SudokuGame
             NewGameButton.Enabled = true;
             SaveButton.Enabled = false;
             LoadButton.Enabled = false;
+            SuggestButton.Enabled = true;
             ValidateButton.Enabled = true;
             SolveButton.Enabled = true;
             SudokuDifficultySelector.Enabled = false;
@@ -451,6 +463,9 @@ namespace SudokuGame
                     TriggerButton.Text = "Resume Game";
                     SaveButton.Enabled = true;
                     LoadButton.Enabled = true;
+                    SuggestButton.Enabled = false;
+                    ValidateButton.Enabled = false;
+                    SolveButton.Enabled = false;
                     SudokuTable.Enabled = false;
                     AddInstructorText("Game paused. Clock stop ticking");
                     break;
@@ -460,9 +475,46 @@ namespace SudokuGame
                     TriggerButton.Text = "Pause Game";
                     SaveButton.Enabled = false;
                     LoadButton.Enabled = false;
+                    SuggestButton.Enabled = true;
+                    ValidateButton.Enabled = true;
+                    SolveButton.Enabled = true;
                     SudokuTable.Enabled = true;
                     AddInstructorText("Game continued. Clock resume ticking");
                     break;
+            }
+        }
+        public void AutoValidateForBeginner ()
+        {
+            string value, column, row;
+            value = SudokuMatrix[CurrentRow, CurrentColumn].ToString();
+            column = (CurrentColumn + 1).ToString();
+            row = (CurrentRow + 1).ToString();
+            if (SudokuChecker.ValidateCell(SudokuMatrix, CurrentRow, CurrentColumn, SudokuMatrix[CurrentRow, CurrentColumn]) == false)
+            {
+                AddInstructorText("Value "+  value + " of [" + row + ":" + column + "] is not legit. Please try again");
+            }
+            else
+            {
+                AddInstructorText("Value " + value + " of [" + row + ":" + column + "] is legit. Hurray");
+            }
+
+        }
+        public void SuggestCell()
+        {
+            if (SudokuChecker.SudokuSolver(SudokuTempSolution, 0, 0)) { 
+                if (SudokuMatrix[CurrentRow, CurrentColumn] != SudokuTempSolution[CurrentRow, CurrentColumn])
+                {
+                    string SuggestNumber = SudokuTempSolution[CurrentRow, CurrentColumn].ToString();
+                    AddInstructorText("You should fill " + SuggestNumber + " in the cell [" + (CurrentColumn + 1).ToString() + ":" + (CurrentRow + 1).ToString() + "]");
+                }
+                else
+                {
+                    AddInstructorText("You have filled the right number");
+                }
+            }
+            else
+            {
+                AddInstructorText("Cannot suggest due to invalid value existed");
             }
         }
         public void AddInstructorText (string input)
@@ -523,9 +575,9 @@ namespace SudokuGame
                 }
             }
         }
-        private void SudokuValidate_Click(object sender, EventArgs e)
+        private void TriggerButton_Click(object sender, EventArgs e)
         {
-            //When click validate button, application will consider if player is win or not 
+            CheckGameState();
         }
         private void SaveButton_Click(object sender, EventArgs e)
         {
@@ -535,6 +587,10 @@ namespace SudokuGame
         {
             LoadGame();
         }
+        private void SuggestButton_Click(object sender, EventArgs e)
+        {
+            SuggestCell();
+        }
         private void ValidateButton_Click(object sender, EventArgs e)
         {
             ValidateGame();
@@ -543,9 +599,9 @@ namespace SudokuGame
         {
             SolveGame();
         }
-        private void HelpButton_Click(object sender, EventArgs e)
+        private void NewGameButton_Click(object sender, EventArgs e)
         {
-
+            NewGame();
         }
         private void AboutButton_Click(object sender, EventArgs e)
         {
@@ -599,6 +655,20 @@ namespace SudokuGame
         private void SudokuTable_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             SudokuMatrix[e.RowIndex, e.ColumnIndex] = Convert.ToInt32(SudokuTable.CurrentCell.Value);
+            if (DifficultyIndicator == 1)
+            {
+                AutoValidateForBeginner();
+            }
+            SuggestButton.Enabled = true;
+            ValidateButton.Enabled = true;
+            SolveButton.Enabled = true;
+        }
+
+        private void SudokuTable_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            SuggestButton.Enabled = false;
+            ValidateButton.Enabled = false;
+            SolveButton.Enabled = false;
         }
 
         private void SudokuTable_CellEnter(object sender, DataGridViewCellEventArgs e)
@@ -607,15 +677,6 @@ namespace SudokuGame
             CurrentRow = e.RowIndex;
         }
 
-        private void NewGameButton_Click(object sender, EventArgs e)
-        {
-            NewGame();
-        }
-
-        private void TriggerButton_Click(object sender, EventArgs e)
-        {
-            CheckGameState();
-        }
         private void OnTimeEvent(object sender, ElapsedEventArgs e)
         {
             Invoke(new Action(() =>
