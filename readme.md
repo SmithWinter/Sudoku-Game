@@ -1,5 +1,5 @@
 
-# Sudoku Game
+# Assembly
 **Contributor**:
 1. Hồ Vũ Minh Đức
 2. Đỗ Quốc Khánh
