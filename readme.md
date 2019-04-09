@@ -1,9 +1,8 @@
 
-# Assembly
+# SUDOKU GAME
 **Contributor**:
-1. Hồ Vũ Minh Đức
-2. Đỗ Quốc Khánh
-3. Nguyễn Duy Hiếu
+1. Nguyễn Quang Minh
+2. Trương Đại Dũng
 
 **Feature**:
 * To be announced
