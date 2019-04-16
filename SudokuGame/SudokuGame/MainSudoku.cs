@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -96,6 +96,7 @@ namespace SudokuGame
         }
         public void SaveGame()
         {
+            //These variables are game data such as game difficulty, timer and current collumn/row
             string text = "";
             string CellValue;
             string GameDifficulty = DifficultyIndicator.ToString();
@@ -106,11 +107,13 @@ namespace SudokuGame
             string ExportCurrentRow = CurrentRow.ToString();
             int EmptyCell;
 
+            //Save game dialog
             SaveFileDialog SaveGameDialog = new SaveFileDialog();
             SaveGameDialog.Filter = "Sudoku Game (*.game)|*.game";
             SaveGameDialog.AddExtension = true;
             SaveGameDialog.OverwritePrompt = true;
             SaveGameDialog.Title = "Save Sudoku Game";
+            //Convert sudoku table's data to string in text
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
@@ -131,6 +134,7 @@ namespace SudokuGame
                     }
                 }
             }
+            //Add timer, current column/row, game difficulty to the end of files
             text += ExportHour;
             text += ExportMinute;
             text += ExportSecond;
@@ -138,6 +142,7 @@ namespace SudokuGame
             text += ExportCurrentRow;
             text += GameDifficulty;
             DialogResult result = SaveGameDialog.ShowDialog();
+            //Try/catch to check error during save data
             try
             {
                 if (result == DialogResult.OK)
@@ -283,7 +288,7 @@ namespace SudokuGame
         }
         public void AboutGame()
         {
-            MessageBox.Show("CONTRIBUTOR OF GAME'S SOURCECODE \n\n 1. HỒ VŨ MINH ĐỨC \n 2. NGUYỄN DUY HIẾU \n 3. ĐỖ QUỐC KHÁNH", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("MIDTERM PROJECT \n\n 1. NGUYỄN QUANG MINH \n 2. TRƯƠNG ĐẠI DŨNG", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         public void ExitGame()
         {
@@ -313,6 +318,7 @@ namespace SudokuGame
         }
         public void CreateRandomPuzzle()
         {
+            //Select difficulty of the game when it start
             switch (DifficultyIndicator)
             {
                 case 1:
@@ -335,11 +341,13 @@ namespace SudokuGame
                     SudokuMatrix[i, j] = (i * 3 + i / 3 + j) % 9 + 1;
                 }
             }
+            //Generate random puzzle and assign it to UI
             Randomize.Mix(SudokuMatrix);
             Copy(SudokuMatrix, SudokuTempSolution);
             MatrixAllocation();
             ShowMatrix();
         }
+        //Copy generated puzzle to main puzzle
         public int[,] Copy(int[,] matrix, int[,] solve)
         {
             for (int i = 0; i < 9; i++)
@@ -351,6 +359,7 @@ namespace SudokuGame
             }
             return solve;
         }
+        //Allocation empty cell
         public void MatrixAllocation()
         {
             int DeleteCounter = 81 - DeletedCellCounter;
@@ -378,6 +387,7 @@ namespace SudokuGame
                 }
             }
         }
+        //Integrated main puzzle to UI
         public void ShowMatrix()
         {
             for (int i = 0; i < 9; i++)
@@ -396,7 +406,9 @@ namespace SudokuGame
                 }
             }
         }
+        //Validate if player has completed the game
         public void ValidateGame ()
+        //If SudokuChecker function return true, then player win the game
         {
             if (SudokuChecker.SudokuValidation(SudokuMatrix) == true)
             {
@@ -412,6 +424,7 @@ namespace SudokuGame
                 MessageBox.Show(" Sorry, the game is not completed yet", "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+        //Solve the game if player give up
         public void SolveGame ()
         {
             if (SudokuChecker.SudokuSolver(SudokuTempSolution, 0, 0))
@@ -432,6 +445,7 @@ namespace SudokuGame
                MessageBox.Show(" Cannot solve due to rule violation \n Please check again", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        //Change component state of the game 
         public void ChangeComponentState()
         {
             SudokuTable.Rows[CurrentRow].Cells[CurrentColumn].Selected = true;
@@ -443,6 +457,7 @@ namespace SudokuGame
             SolveButton.Enabled = true;
             SudokuDifficultySelector.Enabled = false;
         }
+        //Check game state 
         public void CheckGameState()
         {
             switch (GameState)
@@ -483,6 +498,7 @@ namespace SudokuGame
                     break;
             }
         }
+        //Auto cell validation for beginner difficulty
         public void AutoValidateForBeginner ()
         {
             string value, column, row;
@@ -499,6 +515,7 @@ namespace SudokuGame
             }
 
         }
+        //Suggest solution for current cell
         public void SuggestCell()
         {
             if (SudokuChecker.SudokuSolver(SudokuTempSolution, 0, 0)) { 
@@ -517,6 +534,7 @@ namespace SudokuGame
                 AddInstructorText("Cannot suggest due to invalid value existed");
             }
         }
+        //Add instructor text to intructor's text box
         public void AddInstructorText (string input)
         {
             GameInstructor.AppendText(input);
