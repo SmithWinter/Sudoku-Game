@@ -288,7 +288,7 @@ namespace SudokuGame
         }
         public void AboutGame()
         {
-            MessageBox.Show("MIDTERM PROJECT \n\n 1. NGUYỄN QUANG MINH \n 2. TRƯƠNG ĐẠI DŨNG", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("MIDTERM PROJECT \n\n SMITH WINTER", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         public void ExitGame()
         {
